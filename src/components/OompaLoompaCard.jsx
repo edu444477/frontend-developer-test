@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 
-const GENDER_LABELS = { M: 'Man', F: 'Woman' };
-
 function OompaLoompaCard({ oompaLoompa }) {
   const { id, firstName, lastName, gender, profession, image } = oompaLoompa;
 
@@ -19,7 +17,7 @@ function OompaLoompaCard({ oompaLoompa }) {
         <p className="font-semibold text-gray-900">
           {firstName} {lastName}
         </p>
-        <p className="text-sm text-gray-500">{GENDER_LABELS[gender] ?? gender}</p>
+        <p className="text-sm text-gray-500">{gender}</p>
         <p className="text-sm italic text-gray-500">{profession}</p>
       </div>
     </Link>
