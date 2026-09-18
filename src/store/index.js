@@ -1,9 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
+import oompaLoompasReducer from './oompaLoompasSlice';
+import { loadPersistedState, savePersistedState } from './persist';
 
-// configureStore rejects an empty reducer ({}); this placeholder keeps the
-// state untouched while there are no real slices yet.
-const placeholderReducer = (state = {}) => state;
+const persistedOompaLoompas = loadPersistedState();
 
 export const store = configureStore({
-  reducer: placeholderReducer,
+  reducer: {
+    oompaLoompas: oompaLoompasReducer,
+  },
+  preloadedState: persistedOompaLoompas
+    ? { oompaLoompas: persistedOompaLoompas }
+    : undefined,
+});
+
+// Keeps localStorage in sync with the store so the "don't refetch within a
+// day" rule survives page reloads, not just the current tab session.
+store.subscribe(() => {
+  savePersistedState(store.getState().oompaLoompas);
 });
