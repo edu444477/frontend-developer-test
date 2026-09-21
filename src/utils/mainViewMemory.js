@@ -1,7 +1,5 @@
-// Remembers MainView's scroll position and how many items were revealed,
-// across route changes within the same page load (list -> detail ->
-// back), without persisting them to localStorage: a real reload should
-// still start collapsed at the top, only in-app navigation should not.
+// Not persisted to localStorage on purpose: a real reload should still
+// start collapsed at the top, only in-app navigation should not.
 export const PAGE_SIZE = 25;
 
 let rememberedVisibleCount = PAGE_SIZE;

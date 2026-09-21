@@ -12,7 +12,7 @@ import {
   getRememberedVisibleCount,
   setRememberedVisibleCount,
   getRememberedScrollY,
-} from './mainViewMemory';
+} from '../utils/mainViewMemory';
 
 function MainView() {
   const dispatch = useDispatch();
@@ -36,10 +36,7 @@ function MainView() {
     setRememberedVisibleCount(visibleCount);
   }, [visibleCount]);
 
-  // Restore the scroll position once, right after this mount already has
-  // enough items rendered (so the page is tall enough to actually reach
-  // it). The value itself is captured on click, in OompaLoompaCard — see
-  // mainViewMemory.js for why that's the only reliable moment.
+  // The value is captured on click, in OompaLoompaCard — see utils/mainViewMemory.js.
   useEffect(() => {
     window.scrollTo(0, getRememberedScrollY());
   }, []);
