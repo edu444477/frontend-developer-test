@@ -47,7 +47,7 @@ function DetailView() {
               {entry.data.profession}
             </p>
             <div
-              className="mt-4 text-sm leading-relaxed text-gray-700"
+              className="mt-4 text-sm leading-relaxed text-gray-700 text-justify"
               // Sanitized before interpreting it: the API can embed real
               // HTML here, but nothing guarantees it will never include a
               // script.
