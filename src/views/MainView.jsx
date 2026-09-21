@@ -7,11 +7,12 @@ import {
   fetchOompaLoompas,
   selectOompaLoompaList,
 } from '../store/oompaLoompasSlice';
-
-// Matches the API's fixed page size: each scroll-triggered "reveal" shows
-// one more page's worth of items, whether they need a new request or are
-// already sitting in the cache.
-const PAGE_SIZE = 25;
+import {
+  PAGE_SIZE,
+  getRememberedVisibleCount,
+  setRememberedVisibleCount,
+  getRememberedScrollY,
+} from './mainViewMemory';
 
 function MainView() {
   const dispatch = useDispatch();
@@ -23,13 +24,25 @@ function MainView() {
   // even if items already holds hundreds of cached entries from a
   // previous session — how much is on screen is a per-visit concern,
   // separate from whether we need to hit the network again.
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [visibleCount, setVisibleCount] = useState(getRememberedVisibleCount);
   const sentinelRef = useRef(null);
   const isFiltering = query.trim().length > 0;
 
   useEffect(() => {
     dispatch(fetchOompaLoompas(1));
   }, [dispatch]);
+
+  useEffect(() => {
+    setRememberedVisibleCount(visibleCount);
+  }, [visibleCount]);
+
+  // Restore the scroll position once, right after this mount already has
+  // enough items rendered (so the page is tall enough to actually reach
+  // it). The value itself is captured on click, in OompaLoompaCard — see
+  // mainViewMemory.js for why that's the only reliable moment.
+  useEffect(() => {
+    window.scrollTo(0, getRememberedScrollY());
+  }, []);
 
   const hasMoreCached = visibleCount < items.length;
   const hasMorePages = totalPages === null || currentPage < totalPages;

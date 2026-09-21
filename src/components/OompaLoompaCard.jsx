@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { setRememberedScrollY } from '../views/mainViewMemory';
 
 function OompaLoompaCard({ oompaLoompa }) {
   const { id, firstName, lastName, gender, profession, image } = oompaLoompa;
@@ -6,6 +7,13 @@ function OompaLoompaCard({ oompaLoompa }) {
   return (
     <Link
       to={`/${id}`}
+      // Captured here, synchronously on click, because it's the only
+      // moment guaranteed to run before the route (and the DOM) changes.
+      // By the time MainView unmounts, the browser has already swapped
+      // in the shorter detail page and clamped window.scrollY down, so
+      // reading it any later (an effect cleanup, a scroll listener) can
+      // pick up that already-collapsed value instead of the real one.
+      onClick={() => setRememberedScrollY(window.scrollY)}
       className="block overflow-hidden rounded-lg shadow transition hover:shadow-lg"
     >
       <img
