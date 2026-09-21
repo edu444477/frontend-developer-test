@@ -6,9 +6,8 @@ import { store } from './store';
 import './index.css';
 import App from './App.jsx';
 
-// Let MainView restore scroll manually instead of relying on the
-// browser's own attempt, which races against React's re-render on
-// back/forward navigation and loses.
+// MainView restores scroll itself; the browser's own attempt races
+// against React's re-render and loses.
 if ('scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
 }

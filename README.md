@@ -49,6 +49,7 @@ src/
   store/        Redux Toolkit store, the oompaLoompas slice, and the
                 localStorage persistence used for the 1-day cache
   services/     API access layer (fetch calls + response normalization)
+  utils/        Small helpers shared by more than one view/component
 ```
 
 ## Key technical decisions
