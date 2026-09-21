@@ -70,5 +70,6 @@ src/
   spec. Infinite scroll is paused while a filter is active.
 - **`dangerouslySetInnerHTML`** is used for the detail description, since
   some entries contain real HTML that must render interpreted, not
-  escaped. This is safe here because the HTML comes from Napptilus's own
-  trusted API, not from user input.
+  escaped. The value is sanitized with `DOMPurify` first, so the
+  description can still render arbitrary markup without being able to
+  run scripts if the API ever returns something it shouldn't.

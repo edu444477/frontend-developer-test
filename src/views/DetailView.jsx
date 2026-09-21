@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import DOMPurify from 'dompurify';
 import Header from '../components/Header';
 import {
   fetchOompaLoompaDetail,
@@ -47,7 +48,12 @@ function DetailView() {
             </p>
             <div
               className="mt-4 text-sm leading-relaxed text-gray-700"
-              dangerouslySetInnerHTML={{ __html: entry.data.description }}
+              // Sanitized before interpreting it: the API can embed real
+              // HTML here, but nothing guarantees it will never include a
+              // script.
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(entry.data.description),
+              }}
             />
           </div>
         </div>
